@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>许黄越 - 扬州大学教育技术学专业</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        :root {
+            --light-blue: #e6f2ff;
+            --cream-yellow: #fff9e6;
+            --accent-blue: #4d94ff;
+            --accent-yellow: #ffcc66;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --white: #ffffff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--light-blue);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* 导航栏样式 */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-yellow));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-yellow));
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--accent-blue);
+        }
+
+        /* 英雄区域样式 */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--cream-yellow) 100%);
+            color: var(--text-dark);
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-content .highlight {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            color: var(--text-light);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-yellow));
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(77, 148, 255, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(77, 148, 255, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent-blue);
+            color: var(--accent-blue);
+            margin-left: 15px;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        /* 关于我区域样式 */
+        .about {
+            padding: 100px 0;
+            background-color: var(--cream-yellow);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-yellow));
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-img {
+            flex: 1;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            min-height: 400px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .about-img:hover img {
+            transform: scale(1.05);
+        }
+
+        .photo-placeholder {
+            text-align: center;
+            color: var(--text-light);
+            padding: 20px;
+        }
+
+        .photo-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--accent-blue);
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .edu-info {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .edu-info h4 {
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        /* 技能区域样式 */
+        .skills {
+            padding: 100px 0;
+            background-color: var(--light-blue);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-item {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            text-align: center;
+            border-top: 4px solid var(--accent-yellow);
+        }
+
+        .skill-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-item i {
+            font-size: 2.5rem;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+        }
+
+        .skill-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .skill-bar {
+            height: 10px;
+            background-color: #e6f2ff;
+            border-radius: 5px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .skill-level {
+            height: 100%;
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-yellow));
+            border-radius: 5px;
+        }
+
+        /* 作品集区域样式 */
+        .portfolio {
+            padding: 100px 0;
+            background-color: var(--cream-yellow);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .portfolio-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(77, 148, 255, 0.9), rgba(255, 204, 102, 0.9));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        .portfolio-overlay h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* 联系区域样式 */
+        .contact {
+            padding: 100px 0;
+            background-color: var(--light-blue);
+        }
+
+        .contact-content {
+            display: flex;
+            gap: 50px;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .contact-item:hover {
+            transform: translateX(10px);
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            margin-right: 15px;
+            width: 40px;
+        }
+
+        .contact-form {
+            flex: 1;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(77, 148, 255, 0.2);
+            outline: none;
+        }
+
+        textarea.form-control {
+            height: 150px;
+            resize: vertical;
+        }
+
+        /* 页脚样式 */
+        footer {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-yellow));
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .contact-content {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: left 0.3s;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .btn-group {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <div class="logo-img">YZU</div>
+                    <div class="logo-text">李明</div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#about">关于我</a></li>
+                    <li><a href="#skills">专业技能</a></li>
+                    <li><a href="#portfolio">作品展示</a></li>
+                    <li><a href="#contact">联系我</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>我是<span class="highlight">许黄越</span><br>扬州大学教育技术学专业学生</h1>
+                <p>专注于教育技术与新媒体融合，致力于通过技术创新提升学习体验与教育效果。</p>
+                <div class="btn-group">
+                    <a href="#portfolio" class="btn">查看我的作品</a>
+                    <a href="#contact" class="btn btn-outline">联系我</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我区域 -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>关于我</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-img">
+                    <!-- 
+                    替换照片的方法：
+                    1. 使用在线图片：将下面的src属性替换为您的图片URL
+                    2. 使用本地图片：将图片放在与HTML文件相同的文件夹中，然后修改src属性为图片文件名
+                    
+                    例如：
+                    <img src="https://example.com/your-photo.jpg" alt="个人照片">
+                    或
+                    <img src="my-photo.jpg" alt="个人照片">
+                    -->
+                    <img src="照片.jpg" alt="个人照片" id="profile-photo">
+
+                    <!-- 如果没有照片，会显示这个占位符 -->
+                    <div class="photo-placeholder" id="photo-placeholder" style="display: none;">
+                        <i class="fas fa-user-circle"></i>
+                        <p>请替换为您自己的照片</p>
+                        <p>修改第365行的src属性</p>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h3>教育技术学探索者</h3>
+                    <p>我是扬州大学新闻与传媒学院教育技术学专业的大二学生，对教育技术与新媒体的融合充满热情。</p>
+                    <p>在学习过程中，我深入研究了教学设计、多媒体开发、教育数据分析和在线学习环境设计等领域，致力于将技术应用于教育实践，提升学习效果。</p>
+                    <p>我相信技术能够改变教育的未来，希望通过我的努力，能够为教育创新贡献一份力量。</p>
+                    
+                    <div class="edu-info">
+                        <h4>教育背景</h4>
+                        <p><strong>扬州大学</strong> - 新闻与传媒学院 - 教育技术学专业</p>
+                        <p>2022年9月 - 至今（大二在读）</p>
+                        <p>主修课程：教育技术学导论、教育学原理、多媒体技术、计算机网络基础、数据结构与算法等</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技能区域 -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <div class="section-title">
+                <h2>专业技能</h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>多媒体开发</h3>
+                    <p>熟练掌握Photoshop、Premiere、After Effects等多媒体制作工具，能够制作高质量的教学视频和互动媒体内容。</p>
+                    <div class="skill-bar">
+                        <div class="skill-level" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>教学设计</h3>
+                    <p>掌握ADDIE模型、SAM模型等教学设计方法，能够设计有效的学习活动和评估方案。</p>
+                    <div class="skill-bar">
+                        <div class="skill-level" style="width: 80%"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-code"></i>
+                    <h3>前端开发</h3>
+                    <p>熟悉HTML、CSS、JavaScript等前端技术，能够开发响应式网页和简单的教育应用。</p>
+                    <div class="skill-bar">
+                        <div class="skill-level" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>数据分析</h3>
+                    <p>掌握SPSS、Excel等数据分析工具，能够处理和分析教育数据，为教学改进提供依据。</p>
+                    <div class="skill-bar">
+                        <div class="skill-level" style="width: 70%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 作品集区域 -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <div class="section-title">
+                <h2>作品展示</h2>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="项目1">
+                    <div class="portfolio-overlay">
+                        <h3>微课视频制作</h3>
+                        <p>为高中物理课程制作的系列微课视频，结合动画和实验演示，提高学习效果。</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="项目2">
+                    <div class="portfolio-overlay">
+                        <h3>教育游戏开发</h3>
+                        <p>参与设计的科普小游戏程序，通过图像和游戏的方式让小朋友认识植物。</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="1.jpg" alt="个人照片" id="profile-photo">
+                    <div class="portfolio-overlay">
+                        <h3>微电影创作</h3>
+                        <p>写脚本，拍摄视频，最后使用AE等技术软件，创造一部微电影。</p>
+                    </div>
+                </div>
+           <div class="portfolio-item">
+                    <img src="2.jpg" alt="个人照片" id="profile-photo">
+                    <div class="portfolio-overlay">
+    </section>
+
+    <!-- 联系区域 -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>联系我</h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>地址</h3>
+                            <p>江苏省扬州市邗江区大学南路88号扬州大学</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>电话</h3>
+                            <p>+86 15651006777</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>邮箱</h3>
+                            <p>772922960@qq.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div>
+                            <h3>学院</h3>
+                            <p>新闻与传媒学院 - 教育技术学专业</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="您的姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="您的邮箱" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="主题" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="您的消息" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">发送消息</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-weixin"></i></a>
+                <a href="#"><i class="fab fa-qq"></i></a>
+                <a href="#"><i class="fab fa-weibo"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 许黄越 - 扬州大学新闻与传媒学院教育技术学专业. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // 点击导航链接后关闭移动菜单
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+
+        // 表单提交处理
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('感谢您的留言！我会尽快回复您。');
+            this.reset();
+        });
+
+        // 滚动时改变导航栏样式
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // 检查照片是否加载成功，如果没有则显示占位符
+        window.addEventListener('load', function() {
+            const profilePhoto = document.getElementById('profile-photo');
+            const placeholder = document.getElementById('photo-placeholder');
+            
+            // 检查图片是否加载成功
+            if (profilePhoto.complete && profilePhoto.naturalHeight === 0) {
+                profilePhoto.style.display = 'none';
+                placeholder.style.display = 'block';
+            }
+            
+            // 如果图片加载失败
+            profilePhoto.addEventListener('error', function() {
+                profilePhoto.style.display = 'none';
+                placeholder.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
